@@ -34,33 +34,46 @@ class repos::yum::puppetlabs(
       }
 
       if ($enableproducts) {
-        yumrepo { "puppetlabs-products":
-          baseurl => $realpurl,
-          enabled => 1,
-          gpgcheck => 1,
-          gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-          descr => "Puppet Labs Products El ${majver} - ${::hardwareisa}"
-        }
+        $realpe = 1
+      } else {
+        $realpe = 0
       }
 
+
       if ($enabledeps) {
-        yumrepo { "puppetlabs-deps":
-          baseurl => $realdpurl,
-          enabled => 1,
-          gpgcheck => 1,
-          gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-          descr => "Puppet Labs Dependencies El ${majver} - ${::hardwareisa}"
-        }
+        $realdpe = 1
+      } else {
+        $realdpe = 0
       }
 
       if ($enabledevel) {
-        yumrepo { "puppetlabs-products":
-          baseurl => $realdurl,
-          enabled => 1,
-          gpgcheck => 1,
-          gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-          descr => "Puppet Labs Devel El ${version} ${majver} - ${::hardwareisa}"
-        }
+        $realde = 1
+      } else {
+        $realde = 0
+      }
+
+      yumrepo { "puppetlabs-products":
+        baseurl => $realpurl,
+        enabled => $realpe,
+        gpgcheck => 1,
+        gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
+        descr => "Puppet Labs Products El ${majver} - ${::hardwareisa}"
+      }
+
+      yumrepo { "puppetlabs-deps":
+        baseurl => $realdpurl,
+        enabled => $realdpe,
+        gpgcheck => 1,
+        gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
+        descr => "Puppet Labs Dependencies El ${majver} - ${::hardwareisa}"
+      }
+
+      yumrepo { "puppetlabs-devel":
+        baseurl => $realdurl,
+        enabled => $realde,
+        gpgcheck => 1,
+        gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
+        descr => "Puppet Labs Devel El ${majver} - ${::hardwareisa}"
       }
 
       file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs":

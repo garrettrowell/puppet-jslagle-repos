@@ -18,10 +18,37 @@ describe 'repos::yum::puppetlabs' do
     it { should contain_yumrepo('puppetlabs-products').with(
       'baseurl' => "http://yum.puppetlabs.com/el/6/products/x86_64",
       'gpgkey'  => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-      'descr'   => "Puppet Labs Products El 6 - x86_64"
+      'descr'   => "Puppet Labs Products El 6 - x86_64",
+      'enabled' => 1
     )}
   end
 
+  describe 'Yum Repo - Dependencies' do
+    it { should contain_yumrepo('puppetlabs-deps').with(
+      'baseurl' => "http://yum.puppetlabs.com/el/6/dependencies/x86_64",
+      'gpgkey'  => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
+      'descr'   => "Puppet Labs Dependencies El 6 - x86_64",
+      'enabled' => 1
+    )}
+  end
+
+  describe 'Yum repo - no devel' do
+    it { should contain_yumrepo('puppetlabs-devel').with(
+      'enabled' => 0
+    )}
+  end
+
+  describe 'Enable devel' do
+    let(:params) {{ :enabledevel => true }}
+    describe 'Yum Repo - devel' do
+      it { should contain_yumrepo('puppetlabs-devel').with(
+        'baseurl' => "http://yum.puppetlabs.com/el/6/devel/x86_64",
+        'gpgkey'  => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
+        'descr'   => "Puppet Labs Devel El 6 - x86_64",
+        'enabled' => 1
+      )}
+    end
+  end
 end
 
 
