@@ -6,36 +6,43 @@
 #
 # Document parameters here.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# enablepuppetlabs
+#   Indication whether to enabled the puppet repos.
+#   Specified as a true/false string due to a bug in Hiera
+#     - Bug at http://projects.puppetlabs.com/issues/17105
 #
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if it
-#   has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should not be used in preference to class parameters  as of
-#   Puppet 2.6.)
+# enablepgsql
+#   Indicates whether to include the pgsql repos - defaults
+#   to version 9.1, but can be changed in Hiera.
+#   Boolean string
 #
 # === Examples
 #
-#  class { repos:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
-#  }
+# include repos
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Jason Slagle <jslagle@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2011 Your name here, unless otherwise noted.
+# Copyright 2012 Jason Slagle, unless otherwise noted.
 #
-class repos {
+class repos (
+  $enablepuppetlabs = "false",
+  $enablepgsql = "false"
+) {
+  include stdlib
 
+  $renablepuppetlabs = str2bool($enablepuppetlabs)
+  $renablepgsql = str2bool($enablepgsql)
+
+  if ($renablepuppetlabs) {
+    include repos::puppetlabs
+  }
+
+  if ($renablepgsql) {
+    include repos::pgsql
+  }
 
 }

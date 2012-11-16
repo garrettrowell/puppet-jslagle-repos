@@ -1,5 +1,5 @@
 class repos::yum::pgsql(
-  $version,
+  $version = "9.1",
   $baseurl = "http://yum.postgresql.org",
   $url = ""
 ) {
