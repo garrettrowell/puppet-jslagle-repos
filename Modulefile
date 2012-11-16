@@ -1,11 +1,12 @@
 name    'jslagle-repos'
 version '0.0.1'
-source 'UNKNOWN'
-author 'jslagle'
+author 'Jason Slagle <jslagle@gmail.com>'
 license 'Apache License, Version 2.0'
-summary 'UNKNOWN'
-description 'UNKNOWN'
-project_page 'UNKNOWN'
+summary 'Puppet module to manage repositories'
+description 'This module handles installing a variety of repositories,
+  including stubbs where needed.'
+project_page 'https://github.com/jmslagle/puppet-jslagle-repos'
 
 ## Add dependencies, if any:
-# dependency 'username/name', '>= 1.2.0'
+dependency 'puppetlabs/apt'
+dependency 'puppetlabs/stdlib'
