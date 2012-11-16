@@ -9,4 +9,5 @@ class repos::puppetlabs {
     default: {
       notice("OSFamily ${::osfamily} not support for puppet repo")
     }
+  }
 }
