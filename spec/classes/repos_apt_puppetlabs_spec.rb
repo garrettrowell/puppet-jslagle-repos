@@ -12,7 +12,7 @@ describe 'repos::apt::puppetlabs' do
       'location' => 'http://apt.puppetlabs.com',
       'repos' => 'main dependencies ',
       'key' => '4BD6EC30',
-      'key_server' => 'pgp.mit.edu',
+      'key_server' => 'pgp.mit.edu'
     )}
   end
 
