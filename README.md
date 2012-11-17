@@ -16,3 +16,9 @@ Support
 -------
 
 Please log tickets and issues at our [Projects site](https://github.com/jmslagle/puppet-jslagle-repos)
+
+CI Status
+---------
+
+[![Build Status](https://travis-ci.org/jmslagle/jslagle-repos.png)](https://travis-ci.org/jmslagle/jslagle-repos)
+
