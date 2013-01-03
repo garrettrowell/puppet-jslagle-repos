@@ -81,7 +81,7 @@ class repos::yum::puppetlabs(
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
-        source => "puppet:///modules/pageplus/yum/RPM-GPG-KEY-puppetlabs",
+        source => "puppet:///modules/repos/yum/RPM-GPG-KEY-puppetlabs",
       }
 
       repos::yum::rpm_gpg_key { "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs": }

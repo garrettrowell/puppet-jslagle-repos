@@ -27,7 +27,7 @@ class repos::yum::pgsql(
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
-        source => "puppet:///modules/pageplus/yum/RPM-GPG-KEY-PGDG",
+        source => "puppet:///modules/repos/yum/RPM-GPG-KEY-PGDG",
       }
 
       repos::yum::rpm_gpg_key { "/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG": }
