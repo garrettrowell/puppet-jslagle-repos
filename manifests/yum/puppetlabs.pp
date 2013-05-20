@@ -11,25 +11,36 @@ class repos::yum::puppetlabs(
     RedHat: {
       $verarray = split($::operatingsystemrelease,'[.]')
       $majver = $verarray[0]
+      case $::architecture {
+        'amd64','x86_64': {
+          $arch = "x86_64"
+        }
+        'i386','i686': {
+          $arch = "i386"
+        }
+        default: {
+          err("Architecture ${::architecture} not supported")
+        }
+      }
 
       if ($producturl != "") {
         $realpurl = $producturl
       } else {
-        $producttag = "/el/${majver}/products/${::hardwareisa}"
+        $producttag = "/el/${majver}/products/${arch}"
         $realpurl = "${baseurl}${producttag}"
       }
 
       if ($depsurl != "") {
         $realdpurl = $depsurl
       } else {
-        $depstag = "/el/${majver}/dependencies/${::hardwareisa}"
+        $depstag = "/el/${majver}/dependencies/${arch}"
         $realdpurl = "${baseurl}${depstag}"
       }
 
       if ($develurl != "") {
         $realdurl = $develurl
       } else {
-        $develtag = "/el/${majver}/devel/${::hardwareisa}"
+        $develtag = "/el/${majver}/devel/${arch}"
         $realdurl = "${baseurl}${develtag}"
       }
 
@@ -57,7 +68,7 @@ class repos::yum::puppetlabs(
         enabled => $realpe,
         gpgcheck => 1,
         gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-        descr => "Puppet Labs Products El ${majver} - ${::hardwareisa}"
+        descr => "Puppet Labs Products El ${majver} - ${arch}"
       }
 
       yumrepo { "puppetlabs-deps":
@@ -65,7 +76,7 @@ class repos::yum::puppetlabs(
         enabled => $realdpe,
         gpgcheck => 1,
         gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-        descr => "Puppet Labs Dependencies El ${majver} - ${::hardwareisa}"
+        descr => "Puppet Labs Dependencies El ${majver} - ${arch}"
       }
 
       yumrepo { "puppetlabs-devel":
@@ -73,7 +84,7 @@ class repos::yum::puppetlabs(
         enabled => $realde,
         gpgcheck => 1,
         gpgkey => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs",
-        descr => "Puppet Labs Devel El ${majver} - ${::hardwareisa}"
+        descr => "Puppet Labs Devel El ${majver} - ${arch}"
       }
 
       file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs":
