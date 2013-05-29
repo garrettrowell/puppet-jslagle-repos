@@ -8,5 +8,5 @@ description 'This module handles installing a variety of repositories,
 project_page 'https://github.com/jmslagle/puppet-jslagle-repos'
 
 ## Add dependencies, if any:
-dependency 'puppetlabs/apt'
-dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/apt', '>=1.1.0'
+dependency 'puppetlabs/stdlib', '>=3.0.0'
