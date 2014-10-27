@@ -1,6 +1,6 @@
 class repos::yum::asterisk(
 
-  $version       = '12',
+  $version       = '11',
   $baseurl       = 'http://packages.asterisk.org/',
 
 ) {
