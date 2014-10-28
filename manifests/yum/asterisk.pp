@@ -1,4 +1,4 @@
-class repos::yum::asterisk(
+class repos::yum::asterisk (
 
   $version       = '11',
   $baseurl       = 'http://packages.asterisk.org/',
@@ -13,7 +13,7 @@ class repos::yum::asterisk(
       $repoDef   = "asterisk-${version}"
 
       # Asterisk Source Repo's
-      yumrepo { 'asterisk':
+      yumrepo { "asterisk-${version}":
         name     => $repoDef,
         baseurl  => "${baseurl}centos/${majver}/${repoDef}/${::hardwareisa}/",
         enabled  => true,
@@ -24,7 +24,7 @@ class repos::yum::asterisk(
       # Dependencies
       yumrepo { 'asterisk-current':
         name     => 'asterisk-current',
-        baseurl  => "${baseurl}/centos/${majver}/current/${::hardwareisa}/",
+        baseurl  => "${baseurl}centos/${majver}/current/${::hardwareisa}/",
         enabled  => true,
         gpgcheck => false,
         descr    => "CentOS-${majver} - Asterisk - Current",

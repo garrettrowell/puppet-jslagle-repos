@@ -17,7 +17,7 @@ describe 'repos::yum::asterisk' do
 
   describe 'Depend Repo' do
     it { should contain_yumrepo('asterisk-current').with(
-    'baseurl' => "http://packages.asterisk.org/centos/6/asterisk-current/x86_64/",
+    'baseurl' => "http://packages.asterisk.org/centos/6/current/x86_64/",
     'enabled' => "true",
     'descr'   => "CentOS-6 - Asterisk - Current"
     )}
