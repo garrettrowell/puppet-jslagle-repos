@@ -15,7 +15,7 @@ class repos::yum::asterisk(
       # Asterisk Source Repo's
       yumrepo { 'asterisk':
         name     => $repoDef,
-        baseurl  => "${baseurl}/centos/${majver}/${repoDef}/${::hardwareisa}/",
+        baseurl  => "${baseurl}centos/${majver}/${repoDef}/${::hardwareisa}/",
         enabled  => true,
         gpgcheck => false,
         descr    => "CentOS-${majver} - Asterisk - ${version}",
