@@ -30,6 +30,15 @@ class repos::yum::asterisk (
         descr    => "CentOS-${majver} - Asterisk - Current",
       }
 
+      # Dependencies
+      yumrepo { 'digium-current':
+        name     => 'digium-current',
+        baseurl  => "http://packages.digium.com/centos/$majver/current/${::hardwareisa}/",
+        enabled  => true,
+        gpgcheck => false,
+        descr    => "CentOS-${majver} - Digium - Current",
+      }
+
     }
 
     default: { err("OSFamily ${::osfamily} not supported")}
