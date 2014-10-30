@@ -24,7 +24,8 @@ describe 'repos' do
 
   describe 'Ubuntu Tests' do
     let (:facts) {{:osfamily => 'Debian', :lsbdistcodename => 'precise',
-      :hardwareisa => 'x86_64'
+      :hardwareisa => 'x86_64', :lsbdistid => 'Debian',
+      :operatingsystemrelease => '12.04'
     }}
 
     describe 'Include puppetlabs' do
