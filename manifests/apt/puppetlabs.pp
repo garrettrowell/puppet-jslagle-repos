@@ -1,7 +1,7 @@
 class repos::apt::puppetlabs (
-  $enabledevel = "false",
-  $enableproducts = "true",
-  $enabledeps = "true"
+  $enabledevel = false,
+  $enableproducts = true,
+  $enabledeps = true
 ) {
 
   include apt
@@ -11,26 +11,26 @@ class repos::apt::puppetlabs (
   $renabledeps = str2bool($enabledeps)
 
   if ($renableproducts) {
-    $prepo = "main"
+    $prepo = 'main'
   } else {
-    $prepo = ""
+    $prepo = ''
   }
   
   if ($renabledeps) {
-    $dprepo = "dependencies"
+    $dprepo = 'dependencies'
   } else {
-    $dprepo = ""
+    $dprepo = ''
   }
 
   if ($renabledevel) {
-    $drepo = "devel"
+    $drepo = 'devel'
   } else {
-    $drepo = ""
+    $drepo = ''
   }
 
   $repos = "${prepo} ${dprepo} ${drepo}"
 
-  if ($repos != "  ") {
+  if ($repos != '  ') {
     $ensure = present
   } else {
     $ensure = absent

@@ -29,8 +29,8 @@
 # Copyright 2012 Jason Slagle, unless otherwise noted.
 #
 class repos (
-  $enablepuppetlabs = "false",
-  $enablepgsql = "false"
+  $enablepuppetlabs = false,
+  $enablepgsql = false
 ) {
   include stdlib
 
