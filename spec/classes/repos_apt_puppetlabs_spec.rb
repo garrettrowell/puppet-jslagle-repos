@@ -3,8 +3,9 @@ require 'spec_helper'
 
 describe 'repos::apt::puppetlabs' do
 
-  let(:facts) { {:osfamily => 'Debian', :operatingsystemrelease => '12.10',
-    :hardwareisa => 'x86_64', :lsbdistcodename => 'quantal' } }
+  let(:facts) { { :hardwareisa => 'x86_64', :lsbdistid => 'Debian',
+    :osfamily => 'Debian', :lsbdistcodename => 'quantal',
+    :operatingsystemrelease => '12.10' } }
 
   describe 'Should contain sources' do
     it { should contain_apt__source('puppetlabs').with(
