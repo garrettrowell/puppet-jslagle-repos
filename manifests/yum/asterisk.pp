@@ -33,7 +33,7 @@ class repos::yum::asterisk (
       # Dependencies
       yumrepo { 'digium-current':
         name     => 'digium-current',
-        baseurl  => "http://packages.digium.com/centos/$majver/current/${::hardwareisa}/",
+        baseurl  => "http://packages.digium.com/centos/${majver}/current/${::hardwareisa}/",
         enabled  => true,
         gpgcheck => false,
         descr    => "CentOS-${majver} - Digium - Current",
