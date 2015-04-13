@@ -1,42 +1,22 @@
-class repos::yum::asterisk (
-
-  $version       = '11',
-  $baseurl       = 'http://packages.asterisk.org/',
-
-) {
+class repos::yum::asterisk {
 
   case $::osfamily {
 
     RedHat: {
 
-      $majver    = $::operatingsystemmajrelease
-      $repoDef   = "asterisk-${version}"
+      if !defined(Package['dnsmasq']) { package { 'dnsmasq': } }
 
-      # Asterisk Source Repo's
-      yumrepo { "asterisk-${version}":
-        name     => $repoDef,
-        baseurl  => "${baseurl}centos/${majver}/${repoDef}/${::hardwareisa}/",
-        enabled  => true,
-        gpgcheck => false,
-        descr    => "CentOS-${majver} - Asterisk - ${version}",
+      package { 'asterisknow-version':
+        require  => Package['dnsmasq'],
+        provider => rpm,
+        source   => "http://packages.asterisk.org/centos/6/current/${::architecture}/RPMS/asterisknow-version-3.0.0-1_centos6.noarch.rpm",
+        ensure   => installed,
       }
 
-      # Dependencies
-      yumrepo { 'asterisk-current':
-        name     => 'asterisk-current',
-        baseurl  => "${baseurl}centos/${majver}/current/${::hardwareisa}/",
-        enabled  => true,
-        gpgcheck => false,
-        descr    => "CentOS-${majver} - Asterisk - Current",
-      }
-
-      # Dependencies
-      yumrepo { 'digium-current':
-        name     => 'digium-current',
-        baseurl  => "http://packages.digium.com/centos/${majver}/current/${::hardwareisa}/",
-        enabled  => true,
-        gpgcheck => false,
-        descr    => "CentOS-${majver} - Digium - Current",
+      # Enable the asterisk-11 repo
+      yumrepo { 'asterisk-11':
+        require => Package['asterisknow-version'],
+        enabled => 1,
       }
 
     }
