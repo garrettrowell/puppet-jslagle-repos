@@ -28,21 +28,19 @@
 #
 # Copyright 2012 Jason Slagle, unless otherwise noted.
 #
+
 class repos (
   $enablepuppetlabs = false,
-  $enablepgsql = false
+  $enablepgsql      = false
 ) {
-  include stdlib
+  include ::stdlib
 
-  $renablepuppetlabs = str2bool($enablepuppetlabs)
-  $renablepgsql = str2bool($enablepgsql)
-
-  if ($renablepuppetlabs) {
-    include repos::puppetlabs
+  if ($enablepuppetlabs) {
+    include ::repos::puppetlabs
   }
 
-  if ($renablepgsql) {
-    include repos::pgsql
+  if ($enablepgsql) {
+    include ::repos::pgsql
   }
 
 }

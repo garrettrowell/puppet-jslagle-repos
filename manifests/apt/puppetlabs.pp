@@ -1,28 +1,27 @@
+# == Class: repos::apt::puppetlabs
+#
+
 class repos::apt::puppetlabs (
-  $enabledevel = false,
+  $enabledevel    = false,
   $enableproducts = true,
-  $enabledeps = true
+  $enabledeps     = true
 ) {
 
-  include apt
+  include ::apt
 
-  $renabledevel = str2bool($enabledevel)
-  $renableproducts = str2bool($enableproducts)
-  $renabledeps = str2bool($enabledeps)
-
-  if ($renableproducts) {
+  if ($enableproducts) {
     $prepo = 'main'
   } else {
     $prepo = ''
   }
-  
-  if ($renabledeps) {
+
+  if ($enabledeps) {
     $dprepo = 'dependencies'
   } else {
     $dprepo = ''
   }
 
-  if ($renabledevel) {
+  if ($enabledevel) {
     $drepo = 'devel'
   } else {
     $drepo = ''
@@ -39,7 +38,7 @@ class repos::apt::puppetlabs (
   apt::source { 'puppetlabs':
     ensure     => $ensure,
     location   => 'http://apt.puppetlabs.com',
-    repos      => $repos,
+    repos      => strip($repos),
     key        => '4BD6EC30',
     key_server => 'pgp.mit.edu',
   }

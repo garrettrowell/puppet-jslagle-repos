@@ -1,13 +1,17 @@
+# == Class: repos::yum::pgsql
+#
+
 class repos::yum::pgsql(
   $version = '9.1',
   $baseurl = 'http://yum.postgresql.org',
   $url = ''
 ) {
-  case $::osfamily {
-    RedHat: {
-      $verarray = split($::operatingsystemrelease,'[.]')
-      $majver = $verarray[0]
-      $repotag = "redhat/rhel-${majver}-${::hardwareisa}"
+
+  case $::os['family'] {
+    'RedHat': {
+
+      $repotag = "redhat/rhel-${::os['release']['major']}-${::os['hardware']}"
+
       if ($url != '') {
         $realurl = $url
       } else {
@@ -19,7 +23,7 @@ class repos::yum::pgsql(
         enabled  => 1,
         gpgcheck => 1,
         gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG',
-        descr    => "PostgreSQL ${version} ${majver} - ${::hardwareisa}"
+        descr    => "PostgreSQL ${version} ${::os['release']['major']} - ${::os['hardware']}",
       }
 
       file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG':
@@ -33,8 +37,7 @@ class repos::yum::pgsql(
       repos::yum::rpm_gpg_key { '/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG': }
 
     }
-    default: { err("OS Family ${::osfamily} not supported")}
+    default: { err("OS Family ${::os['family']} not supported")}
   }
-
 
 }

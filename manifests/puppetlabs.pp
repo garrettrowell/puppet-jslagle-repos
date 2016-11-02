@@ -1,13 +1,16 @@
+# == Class: repos::puppetlabs
+#
+
 class repos::puppetlabs {
-  case $::osfamily {
+  case $::os['family'] {
     'RedHat': {
-      include repos::yum::puppetlabs
+      include ::repos::yum::puppetlabs
     }
     'Debian': {
-      include repos::apt::puppetlabs
+      include ::repos::apt::puppetlabs
     }
     default: {
-      notice("OSFamily ${::osfamily} not support for puppet repo")
+      notice("OSFamily ${::os['family']} not support for puppet repo")
     }
   }
 }

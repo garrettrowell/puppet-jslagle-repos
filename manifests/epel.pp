@@ -1,10 +1,13 @@
+# == Class: repos::epel
+#
+
 class repos::epel {
-  case $::osfamily {
+  case $::os['family'] {
     'RedHat': {
-      include repos::yum::epel
+      include ::repos::yum::epel
     }
     default: {
-      notice("OSFamily ${::osfamily} not support for EPEL")
+      notice("OSFamily ${::os['family']} not support for EPEL")
     }
   }
 }

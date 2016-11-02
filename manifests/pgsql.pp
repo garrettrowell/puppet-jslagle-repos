@@ -1,10 +1,13 @@
+# == Class: repos::pgsql
+#
+
 class repos::pgsql {
-  case $::osfamily {
+  case $::os['family'] {
     'RedHat': {
-      include repos::yum::pgsql
+      include ::repos::yum::pgsql
     }
     default: {
-      notice("OSFamily ${::osfamily} not support for puppet repo")
+      notice("OSFamily ${::os['family']} not support for puppet repo")
     }
   }
 }

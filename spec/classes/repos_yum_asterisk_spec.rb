@@ -3,20 +3,40 @@
 
 describe 'repos::yum::asterisk' do
 
-  let(:facts) { {:osfamily => 'RedHat', :operatingsystemmajrelease => '6',
-    :hardwareisa => 'x86_64' } }
-
-  describe 'Main Repo' do
-    it { should contain_yumrepo('asterisk-11').with_enabled("1") }
-  end
-
-  describe 'Dependencies' do
-    it { should contain_package('dnsmasq') }
-
-    it { should contain_package('asterisknow-version').with(
-      'require' => 'Package[dnsmasq]', 'provider' => 'rpm',
-      'ensure' => 'installed')
+  let(:facts) do
+    {
+      :os => {
+        :family   => 'RedHat',
+        :name     => 'Scientific',
+        :hardware => 'x86_64',
+        :release  => {
+          :full  => '6.6',
+          :major => '6',
+          :minor => '6'
+        }
+      }
     }
   end
 
+  describe 'Main Repo' do
+    it do
+      is_expected.to contain_yumrepo('asterisk-11').with(
+        'enabled' => '1'
+      )
+    end
+  end
+
+  describe 'Dependencies' do
+    it do
+      is_expected.to contain_package('dnsmasq')
+    end
+
+    it do
+      is_expected.to contain_package('asterisknow-version').with(
+        'require'  => 'Package[dnsmasq]',
+        'provider' => 'rpm',
+        'ensure'   => 'installed'
+      )
+    end
+  end
 end

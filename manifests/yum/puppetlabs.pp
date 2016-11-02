@@ -1,17 +1,19 @@
+# == Class: repos::yum::puppetlabs
+#
+
 class repos::yum::puppetlabs(
   $enableproducts = true,
-  $enabledeps = true,
-  $enabledevel = false,
-  $baseurl = 'http://yum.puppetlabs.com',
-  $producturl = '',
-  $depsurl = '',
-  $develurl = ''
+  $enabledeps     = true,
+  $enabledevel    = false,
+  $baseurl        = 'http://yum.puppetlabs.com',
+  $producturl     = '',
+  $depsurl        = '',
+  $develurl       = ''
 ) {
-  case $::osfamily {
-    RedHat: {
-      $verarray = split($::operatingsystemrelease,'[.]')
-      $majver = $verarray[0]
-      case $::architecture {
+  case $::os['family'] {
+    'RedHat': {
+
+      case $::os['hardware'] {
         'amd64','x86_64': {
           $arch = 'x86_64'
         }
@@ -19,28 +21,28 @@ class repos::yum::puppetlabs(
           $arch = 'i386'
         }
         default: {
-          err("Architecture ${::architecture} not supported")
+          err("Architecture ${::os['hardware']} not supported")
         }
       }
 
       if ($producturl != '') {
         $realpurl = $producturl
       } else {
-        $producttag = "/el/${majver}/products/${arch}"
+        $producttag = "/el/${::os['release']['major']}/products/${arch}"
         $realpurl = "${baseurl}${producttag}"
       }
 
       if ($depsurl != '') {
         $realdpurl = $depsurl
       } else {
-        $depstag = "/el/${majver}/dependencies/${arch}"
+        $depstag = "/el/${::os['release']['major']}/dependencies/${arch}"
         $realdpurl = "${baseurl}${depstag}"
       }
 
       if ($develurl != '') {
         $realdurl = $develurl
       } else {
-        $develtag = "/el/${majver}/devel/${arch}"
+        $develtag = "/el/${::os['release']['major']}/devel/${arch}"
         $realdurl = "${baseurl}${develtag}"
       }
 
@@ -49,7 +51,6 @@ class repos::yum::puppetlabs(
       } else {
         $realpe = 0
       }
-
 
       if ($enabledeps) {
         $realdpe = 1
@@ -68,7 +69,7 @@ class repos::yum::puppetlabs(
         enabled  => $realpe,
         gpgcheck => 1,
         gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs',
-        descr    => "Puppet Labs Products El ${majver} - ${arch}"
+        descr    => "Puppet Labs Products El ${::os['release']['major']} - ${arch}",
       }
 
       yumrepo { 'puppetlabs-deps':
@@ -76,7 +77,7 @@ class repos::yum::puppetlabs(
         enabled  => $realdpe,
         gpgcheck => 1,
         gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs',
-        descr    => "Puppet Labs Dependencies El ${majver} - ${arch}"
+        descr    => "Puppet Labs Dependencies El ${::os['release']['major']} - ${arch}",
       }
 
       yumrepo { 'puppetlabs-devel':
@@ -84,7 +85,7 @@ class repos::yum::puppetlabs(
         enabled  => $realde,
         gpgcheck => 1,
         gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs',
-        descr    => "Puppet Labs Devel El ${majver} - ${arch}"
+        descr    => "Puppet Labs Devel El ${::os['release']['major']} - ${arch}",
       }
 
       file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs':
@@ -96,10 +97,8 @@ class repos::yum::puppetlabs(
       }
 
       repos::yum::rpm_gpg_key { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs': }
-
     }
-    default: { err("OS Family ${::osfamily} not supported")}
+    default: { err("OS Family ${::os['family']} not supported")}
   }
-
 
 }
